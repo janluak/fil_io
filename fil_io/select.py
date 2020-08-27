@@ -41,7 +41,7 @@ def return_file_list_if_directory(
         return get_file_list_from_directory(path, file_ending, pattern, regex)
     if return_always_list:
         return [path]
-    return path
+    raise TypeError
 
 
 def check_file_name_ending(file_name, ending):
@@ -69,14 +69,16 @@ def check_file_name_ending(file_name, ending):
     # input type check
     if not isinstance(file_name, str):
         raise TypeError(f"file_name needs to be string, {type(file_name)} provided")
-    if not isinstance(ending, (str, list, set)):
+    if not isinstance(ending, (str, list, set, tuple)):
         raise TypeError(
-            f"ending needs to be either a list or a string, {type(ending)} provided"
+            f"ending needs to be either a list, set, tuple or a string, {type(ending)} provided"
         )
 
     # check if multiple endings got provided
-    if not isinstance(ending, (set, list)):
+    if not hasattr(ending, "__iter__") or isinstance(ending, str):
         ending = [ending]
+    elif isinstance(ending, (tuple, set)):
+        ending = list(ending)
 
     # remove '.' from ending if provided as first character
     for element in ending:
@@ -116,9 +118,9 @@ def get_file_list_from_directory(directory, file_ending=None, pattern=None, rege
         raise TypeError(
             "file_name needs to be string, {} provided".format(type(directory))
         )
-    if pattern and regex or file_ending and regex:
+    if pattern and regex:
         raise ValueError(
-            "`regex` may only be specified alone and not together with `file_ending` or `pattern`"
+            "only `pattern` or `regex` may be specified"
         )
     if file_ending and not isinstance(file_ending, (str, list)):
         raise TypeError(
@@ -146,18 +148,27 @@ def get_file_list_from_directory(directory, file_ending=None, pattern=None, rege
     else:
         files = glob.glob(directory + "*.*")
 
+    # delete file_names not fitting the regex
+    if regex:
+        if file_ending and file_ending not in regex:
+            if "." != file_ending[0]:
+                file_ending = "." + file_ending
+
+            if "$" == regex[-1]:
+                regex = regex[:-1] + file_ending + "$"
+            else:
+                regex += file_ending + "$"
+
+        logging.debug("regex for desired files: {}".format(regex))
+        for file in files.copy():
+            if not bool(re.search(regex, file.split("/")[-1])):
+                files.remove(file)
+
     # delete file_names not of specified file_ending
     if file_ending:
         logging.debug("file_endings for desired files: {}".format(file_ending))
         for file in files.copy():
             if not check_file_name_ending(file, file_ending):
-                files.remove(file)
-
-    # delete file_names not fitting the regex
-    if regex:
-        logging.debug("regex for desired files: {}".format(regex))
-        for file in files.copy():
-            if not bool(re.search(regex, file.split("/")[-1])):
                 files.remove(file)
 
     logging.info("{} files in directory {}: {}".format(len(files), directory, files))
