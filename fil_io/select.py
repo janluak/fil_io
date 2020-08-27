@@ -3,14 +3,14 @@ import logging, os, glob, re
 __doc__ = "The file_selection module provides multiple supporting functions for interaction with files"
 
 __all__ = [
-    "get_latest_file_from_directory",
+    "get_newest_file_from_directory",
     "get_file_list_from_directory",
-    "return_file_list_if_path",
+    "return_file_list_if_directory",
     "check_file_name_ending",
 ]
 
 
-def return_file_list_if_path(
+def return_file_list_if_directory(
     path, file_ending=None, pattern=None, regex=None, return_always_list=False
 ):
     """
@@ -164,7 +164,7 @@ def get_file_list_from_directory(directory, file_ending=None, pattern=None, rege
     return files
 
 
-def get_latest_file_from_directory(
+def get_newest_file_from_directory(
     directory, file_ending=None, pattern=None, regex=None
 ):
     """

@@ -15,14 +15,14 @@ The easiest way to get the latest file matching containing the name ``DataSource
 
 
     # Explicit way
-    file_name = fil_io.file_selection.get_latest_from_directory(
+    file_name = fil_io.file_selection.get_newest_file_from_directory(
                     directory="path/to/directory",
                     pattern="DataSource1*",
                     file_ending="csv"
                     )
 
     # Shortened way
-    file_name = fil_io.file_selection.get_latest_from_directory(
+    file_name = fil_io.file_selection.get_newest_file_from_directory(
                     directory="path/to/directory",
                     pattern="DataSource1*.csv"
                     )
