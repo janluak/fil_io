@@ -16,8 +16,7 @@ from fil_io import __version__
 import sphinx.ext.autodoc
 import sphinx.ext.napoleon
 
-sys.path.insert(0, os.path.abspath("../../file_io"))
-# autodoc_mock_imports = ["datesy"]
+sys.path.insert(0, os.path.abspath("../../fil_io"))
 
 
 # -- Project information -----------------------------------------------------

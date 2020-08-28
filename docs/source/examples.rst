@@ -1,5 +1,10 @@
+Examples
+========
+
+The examples are split in two parts: the selection of files and the standard interface for reading/writing files.
+
 Selecting Files
----------------
+###############
 
 The file selection provides multiple ways for retrieving the desired files.
 All selecting functions contain three possibility to match:
@@ -27,8 +32,8 @@ The easiest way to get the latest file matching containing the name ``DataSource
                     pattern="DataSource1*.csv"
                     )
 
-File I/O
---------
+File reading / writing
+######################
 
 The library provides a standardized way of interacting with files.
 For every file-type in the `file_IO` subpackage, there exist load- & write-functions following the same pattern.

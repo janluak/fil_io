@@ -2,22 +2,17 @@
 Introduction
 ************
 
-Making intro to data handling in python nice and easy!
-
-The ``datesy`` package provides easy handling (read/write) of standard file types, the conversion between the file types
-as well as basic data inspection functionalities.
-
-It is designed for an easy start into the python world and data handling in it without having to think of unnecessary basics.
+Selecting, reading and writing files as easy as it can be!
 
 
 Main Usage
 ##########
 
-Datesy, making DATa handling EaSY, is mostly helpful if you are looking for:
+With ``fil_io`` you can:
 
-1. loading/dumping data to a standard file format like `json`, `csv`, `xml`, `xls(x)`
-2. inspecting complex data like searching for a path in a dictionary
-3. mapping strings and their properties
+1. selecting files based on e.g. file_ending, naming pattern or last change date
+2. simple reading one or more files at once
+3. simple writing files
 
 
 Motivation
@@ -36,14 +31,13 @@ From this `datesy <https://github.com/janluak/datesy>`_ and ``fil_io`` derived.
 Future Development
 *********************
 
-With simplifying file IO, adding some more file types or
+With simplifying file IO, adding some more file types or improving selecting might come in handy.
 
 
 Limitations
 ###########
 
-This package is designed to be used by anybody who is new to python. Therefore functions are explicitly held limited to their magic and described accordingly.
-There are few things really the big shit rather than simply helping with small tasks which you could have written yourself in a few lines of code but didn't want to think about.
-For deep data analysis other packages are far more powerful and maybe helpful to you. Think of ``datesy`` more of the little butler taking care of some basic tasks for you.
+This package is designed to be an alternative and simplified API for file interaction.
+All and more functionality is already available either built-in from python or from other packages.
 
-This package is compatible to `PyPy <https://pypy.org>`_'s version 3.6.
+Yet, for quite some tasks this packages makes a lot more fun to use and is cleaning your code.
