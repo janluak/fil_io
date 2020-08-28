@@ -41,7 +41,7 @@ def load(path):
         dictionary containing the sheets as `panda.DataFrames`: ``{file_name: {sheet_name: pandas.DataFrame}}``
 
     """
-    files = return_file_list_if_path(path, pattern="*.xls*", return_always_list=True)
+    files = return_file_list_if_directory(path, pattern="*.xls*", return_always_list=True)
     data = load_these_files(files)
     try:
         [value] = data.values()

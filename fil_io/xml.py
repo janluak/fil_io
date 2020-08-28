@@ -24,7 +24,7 @@ def load(path):
         dictionary representing the json ``{file_name: {data}}``
 
     """
-    files = return_file_list_if_path(path, file_ending=".xml", return_always_list=True)
+    files = return_file_list_if_directory(path, file_ending=".xml", return_always_list=True)
     data = load_these(files)
     try:
         [value] = data.values()
@@ -52,7 +52,7 @@ def load_single(file_name):
 
     with open(file_name, "r") as f:
         logging.info("loading file_name {}".format(file_name))
-        f = str(f.read())
+        f = f.read()
         return dict(parse(f))
 
 
@@ -106,13 +106,26 @@ def load_all(directory):
     return data
 
 
+def _check_allowed_keys(data):
+    from re import match
+    if isinstance(data, dict):
+        for key in data:
+            if not match("^[a-zA-Z_]+[a-zA-Z0-9_.]*$", key):
+                raise ValueError(f"key name is not allowed in xml: {key}")
+            _check_allowed_keys(data[key])
+
+    elif isinstance(data, (list, set, tuple)):
+        for item in data:
+            _check_allowed_keys(item)
+
+
 def write(data, file_name, main_key_name=None):
     """
     Save xml file from dict or collections.OrderedDict to file
 
     Parameters
     ----------
-    file_name : strfile_name
+    file_name : str
         the file_name to save under. if no ending is provided, saved as .xml
     data : dict, collections.OrderedDict
         the dictionary to be saved as xml
@@ -136,6 +149,9 @@ def write(data, file_name, main_key_name=None):
             f"file_name ending {file_name.split('.')[-1]} different to standard ({'xml'})"
         )
 
+    _check_allowed_keys(data)
+
     from xmltodict import unparse
 
-    unparse(data, output=file_name)
+    with open(file_name, "w+") as f:
+        unparse(data, output=f)

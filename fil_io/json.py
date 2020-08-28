@@ -25,7 +25,7 @@ def load(path):
         dictionary representing the json ``{file_name: {data}}``
 
     """
-    files = return_file_list_if_path(path, file_ending=".json", return_always_list=True)
+    files = return_file_list_if_directory(path, file_ending=".json", return_always_list=True)
     data = load_these(files)
     try:
         [value] = data.values()

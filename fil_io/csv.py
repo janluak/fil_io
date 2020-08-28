@@ -55,7 +55,7 @@ def load(path, **kwargs):
         dict of list of lists if multiple files provided: ``{file_name : [[row1.1, row1.2]]}``
 
     """
-    files = return_file_list_if_path(path, file_ending=".csv", return_always_list=True)
+    files = return_file_list_if_directory(path, file_ending=".csv", return_always_list=True)
     data = load_these(files, **kwargs)
     try:
         [value] = data.values()
@@ -228,8 +228,9 @@ def write_from_dict(
         csv dialect options
 
     """
+    raise NotImplemented("bug in datesy")
     if not main_key_name:
-        from datesy import cast_main_key
+        from datesy.inspect import cast_main_key
         data, main_key_name = cast_main_key(data)
 
     from datesy.convert import dict_to_rows
