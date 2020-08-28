@@ -1,6 +1,6 @@
 # static information that is relevant for packet management and documentation
-from fil_io import __version__, __name__
-project_name = __name__
+from fil_io import __version__
+project_name = "fil_io"
 version = __version__
 url = f"https://github.com/janluak/{project_name}"
 author = "Jan Lukas Braje"
