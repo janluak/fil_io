@@ -1,6 +1,6 @@
 from .select import *
 import csv
-import os
+from pathlib import Path
 import logging
 
 __doc__ = "The csv_file module takes care of all I/O interactions concerning csv files"
@@ -89,7 +89,7 @@ def load_single(file_name, **kwargs):
     else:
         dialect = "unix"
 
-    with open(file_name, "r") as f:
+    with open(Path(file_name), "r") as f:
         data = list()
         rows = csv.reader(f, dialect=dialect)
         for row in rows:
@@ -146,8 +146,6 @@ def load_all(directory, **kwargs):
         the rows from the files as values of file_name as key
         ``{file_name : [[row1.1, row1.2]]}``
     """
-    if not os.path.isdir(directory):
-        raise NotADirectoryError
 
     files = get_file_list_from_directory(directory, file_ending=".csv")
     data = load_these(files, **kwargs)
@@ -189,7 +187,7 @@ def write_from_rows(rows, file_name, **kwargs):
             )
         )
 
-    with open(file_name, "w") as fw:
+    with open(Path(file_name), "w") as fw:
         w = csv.writer(fw, dialect=dialect)
         for row in rows:
             w.writerow(row)

@@ -22,10 +22,10 @@ def test_load_all(cwd_in_tests_root):
 
     loaded = load_all("./test_files")
     assert loaded == {
-        './test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
+        'test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
     }
 
 
@@ -37,10 +37,10 @@ def test_load(cwd_in_tests_root):
 
     loaded = load("./test_files")
     assert loaded == {
-        './test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
+        'test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
     }
 
 

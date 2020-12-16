@@ -1,5 +1,5 @@
 from .select import *
-import os
+from pathlib import Path
 import logging
 
 __doc__ = (
@@ -51,7 +51,7 @@ def load_single(file_name):
     """
     from json import load
 
-    with open(file_name, "r") as f:
+    with open(Path(file_name), "r") as f:
         logging.info("loading file_name {}".format(file_name))
         return load(f)
 
@@ -97,8 +97,6 @@ def load_all(directory):
         the dictionaries from the files as values of file_name as key
         ``{file_name: {data}}``
     """
-    if not os.path.isdir(directory):
-        raise NotADirectoryError
 
     files = get_file_list_from_directory(directory, file_ending=".json")
     data = load_these(files)
@@ -134,7 +132,7 @@ def write(data, file_name, beautify=True, sort=False):
 
     from json import dump
 
-    with open(file_name, "w") as fp:
+    with open(Path(file_name), "w") as fp:
         if beautify:
             if sort:
                 dump(data, fp, indent=4, sort_keys=True)

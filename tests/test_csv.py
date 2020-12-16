@@ -26,14 +26,14 @@ def test_load_all(cwd_in_tests_root):
 
     loaded = load_all("./test_files")
     assert loaded == {
-        './test_files/excel_dialect.csv': [['header_a', 'header_b'],
+        'test_files/excel_dialect.csv': [['header_a', 'header_b'],
                                            ['abc, def', 'value_b']],
-        './test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
-        './test_files/pattern_2.csv': [['header_a', 'header_b'],
+        'test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
+        'test_files/pattern_2.csv': [['header_a', 'header_b'],
                                        ["'value_a", " and more'", 'value_b']],
-        './test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
+        'test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
                                                ["'abc", " def'", 'value_b']],
-        './test_files/semicolon_dialect.csv': [['header_a;header_b'],
+        'test_files/semicolon_dialect.csv': [['header_a;header_b'],
                                                ['value_a;value_b']]
     }
 
@@ -46,14 +46,14 @@ def test_load(cwd_in_tests_root):
 
     loaded = load("./test_files")
     assert loaded == {
-        './test_files/excel_dialect.csv': [['header_a', 'header_b'],
+        'test_files/excel_dialect.csv': [['header_a', 'header_b'],
                                            ['abc, def', 'value_b']],
-        './test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
-        './test_files/pattern_2.csv': [['header_a', 'header_b'],
+        'test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
+        'test_files/pattern_2.csv': [['header_a', 'header_b'],
                                        ["'value_a", " and more'", 'value_b']],
-        './test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
+        'test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
                                                ["'abc", " def'", 'value_b']],
-        './test_files/semicolon_dialect.csv': [['header_a;header_b'],
+        'test_files/semicolon_dialect.csv': [['header_a;header_b'],
                                                ['value_a;value_b']]
     }
 

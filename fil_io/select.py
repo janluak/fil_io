@@ -1,4 +1,5 @@
 import logging, os, glob, re
+from pathlib import Path
 
 __doc__ = "The file_selection module provides multiple supporting functions for interaction with files"
 
@@ -37,7 +38,8 @@ def return_file_list_if_directory(
         if directory the list of files else the path (in a list if `return_always_list` is set)
 
     """
-    if os.path.isdir(path):
+    path = Path(path)
+    if path.is_dir():
         return get_file_list_from_directory(path, file_ending, pattern, regex)
     if return_always_list:
         return [path]
@@ -114,7 +116,7 @@ def get_file_list_from_directory(directory, file_ending=None, pattern=None, rege
         a list of all relative file_name directories
     """
     # input type check
-    if not isinstance(directory, str):
+    if not isinstance(directory, (str, Path)):
         raise TypeError(
             "file_name needs to be string, {} provided".format(type(directory))
         )
@@ -133,20 +135,20 @@ def get_file_list_from_directory(directory, file_ending=None, pattern=None, rege
     if regex and not isinstance(regex, str):
         raise TypeError("regex needs to be string, {} provided".format(type(regex)))
 
-    if not os.path.isdir(directory):
-        raise ValueError(f"{directory} is not a file_directory")
+    directory = Path(directory)
+    if not directory.is_dir():
+        raise NotADirectoryError(f"{directory} is not a file_directory")
 
-    if not directory.endswith("/"):
-        directory += "/"
+    directory_str = directory.__str__() + "/"
 
     # get list of files from directory
     if pattern:
         if "." not in pattern:  # if no file_name ending was specified in `pattern`
-            files = glob.glob(directory + pattern + ".*")
+            files = glob.glob(directory_str + pattern + ".*")
         else:
-            files = glob.glob(directory + pattern)
+            files = glob.glob(directory_str + pattern)
     else:
-        files = glob.glob(directory + "*.*")
+        files = glob.glob(directory_str + "*.*")
 
     # delete file_names not fitting the regex
     if regex:
