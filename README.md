@@ -6,8 +6,8 @@ The minimal required python version is `Python3.6`.
 The easiest installation can be done by `pip3 install fil_io`.
 
 ## Getting started
-Once installed, just `import fil_io` the package and start using as simple as:
-`data_sheet = fil_io.xls.load_single_sheet(file_name, sheet_name)` 
+Once installed, just `from fil_io import xls` the package and start using as simple as:
+`data_sheet = xls.load_single_sheet(file_name, sheet_name)` 
 For further guidance and help look at the documentation:
 
 ## Documentation
