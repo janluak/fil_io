@@ -18,16 +18,17 @@ The easiest way to get the latest file matching containing the name ``DataSource
 
 .. code-block:: python
 
+    from fil_io import select
 
     # Explicit way
-    file_name = fil_io.file_selection.get_newest_file_from_directory(
+    file_name = select.get_newest_file_from_directory(
                     directory="path/to/directory",
                     pattern="DataSource1*",
                     file_ending="csv"
                     )
 
     # Shortened way
-    file_name = fil_io.file_selection.get_newest_file_from_directory(
+    file_name = select.get_newest_file_from_directory(
                     directory="path/to/directory",
                     pattern="DataSource1*.csv"
                     )
@@ -39,6 +40,7 @@ The library provides a standardized way of interacting with files.
 For every file-type in the `file_IO` subpackage, there exist load- & write-functions following the same pattern.
 Only exception is the `xls` module due to the characteristics of sheets.
 
+`Examples are given mostly with csv module, switch the` ``csv`` `to whatever submodule/-package you need.`
 
 All-in-one/doing-all-the-magic loading functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,11 +49,13 @@ It is a shortcut for the specific ways of loading data in each file-type specifi
 
 .. code-block:: python
 
-    data = fil_io.load_csv(path="path/to/file.csv")
+    from fil_io import csv
+
+    data = csv.load(path="path/to/file.csv")
     # data is list of lists representing the csv file
 
-    data = fil_io.load_json(path="path/to/file.json")
-    # data is dictionary representing json file
+    data = csv.load(path="directory/of/multiple/files")
+    # data is dictionary representing all csv files with {file_name: file_content}
 
 
 The most easy way to write data is with the `write-type` function.
@@ -60,10 +64,12 @@ It is again a shortcut to file-type specific modules:
 .. code-block:: python
 
     # data is written to the csv file
-    fil_io.write_csv(file_name="path/to/file.csv", data=data_to_write)
+    from fil_io import csv
+    csv.write(file_name="path/to/file.csv", data=data_to_write)
 
     # data is written to the json file
-    fil_io.load_json(file_name="path/to/file.json", data=data_to_write)
+    from fil_io import json
+    json.write(file_name="path/to/file.json", data=data_to_write)
 
 
 File-type specific modules: advanced reading/writing
@@ -71,9 +77,8 @@ File-type specific modules: advanced reading/writing
 For every file-type exist more specific functions for reading & writing the data.
 The presented examples from above are redirecting to the most general functions in the packages.
 
-If using a IDE, the implemented functions will be shown to you directly with typing `fil_io.`/`fil_io.json.`.
-If in interactive mode, simply type `fil_io.__all__`/`fil_io.json.__all__`.
-Switch the `json` to whatever submodule/-package you need.
+If using a IDE, the implemented functions will be shown to you after importing the file-specific module directly with typing ``csv.`` and hitting `tab`.
+If in interactive mode, simply run ``csv.__all__``.
 
 Reading
 ^^^^^^^
@@ -81,27 +86,28 @@ The reading of the files is fairly simple
 
 .. code-block:: python
 
-    # load single json file
-    data = fil_io.json.load_single(path="path/to/file.json")
-    # data is representing the json file
+    from fil_io import csv
+
+    # load single csv file
+    data = csv.load_single(file_name="path/to/file.csv")
+    # data is representing the csv file
 
 
-    # load specific list of json files
-    data = fil_io.json.load_these(file_name_list=["path/to/file1.json", "path/to/file2.json"])
-    # data is representing both json files; {file_name: json_value}
+    # load specific list of csv files
+    data = csv.load_these(file_name_list=["path/to/file1.csv", "path/to/file2.csv"])
+    # data is representing both csv files; {file_name: file_content}
 
 
-    # load all json files from a directory
-    data = fil_io.json.load_all(directory="/path/to/directory")
-    # data is representing all json files of this directory; {file_name: json_value}
+    # load all csv files from a directory
+    data = csv.load_all(directory="/path/to/directory")
+    # data is representing all csv files of this directory; {file_name: file_content}
 
 
 
     # doing all of the above depending if `path` is file, list_ofs or directory
-    data = fil_io.load_json(path="path/to/any")
+    data = csv.load(path="path/to/any")
     # depending if single file or multiple files either dictionary representing json file or {file_name: json_value}
 
-The last function is also reachable with the shortcut stated in the very beginning of the examples: ``fil_io.load_json``
 
 Writing
 ^^^^^^^
@@ -115,13 +121,15 @@ or you can provide a dictionary instead and let `fil_io` take care of the conver
 
 .. code-block:: python
 
+    from fil_io import csv
+
     # lets start with row-based data
     example_rows = [
                     ["Header1", "Header2", "Header3"],
                     ["Value11", "Value12", "Value13"],
                     ["Value21", "Value22", "Value23"]
                    ]
-    fil_io.csv.write_from_rows(file_name="path/to/csv.csv", rows=example_rows)
+    csv.write_from_rows(file_name="path/to/csv.csv", rows=example_rows)
 
     # The result in the file:
     # Header1,Header2,Header3
@@ -142,7 +150,7 @@ or you can provide a dictionary instead and let `fil_io` take care of the conver
                        }
                      }
                    }
-    fil_io.csv.write_from_dict(file_name="path/to/csv.csv", data=example_dict)
+    csv.write_from_dict(file_name="path/to/csv.csv", data=example_dict)
 
     # The result in the file is the same:
     # Header1,Header2,Header3
@@ -162,7 +170,7 @@ or you can provide a dictionary instead and let `fil_io` take care of the conver
                      }
                    }
 
-    fil_io.csv.write_from_dict(
+    csv.write_from_dict(
         file_name="path/to/csv.csv",
         data=example_dict,
         main_key_name="Header1",
@@ -175,7 +183,7 @@ or you can provide a dictionary instead and let `fil_io` take care of the conver
     # Value21,Value22,Value23
 
 Again, there is a function combining both writing methods, available also with a shortcut stated
-in the very beginning of the examples: ``fil_io.write_csv``
+in the very beginning of the examples: ``csv.write``
 
 
 xls/xlsx Files
@@ -189,24 +197,27 @@ Yet, interaction is still fairly simple:
 
 .. code-block:: python
 
-    data_frame = fil_io.xls.load_single_sheet(file_name="path/to/file.xls")     # .xlsx works with the same function
+
+    from fil_io import xls
+
+    data_frame = xls.load_single_sheet(file_name="path/to/file.xls")     # .xlsx works with the same function
     # returns a pandas.data_frame from first sheet
 
     # you can specify a sheet_name
-    data_frame = fil_io.xls.load_single_sheet(file_name="path/to/file.xls", sheet="Sheet_Name")
+    data_frame = xls.load_single_sheet(file_name="path/to/file.xls", sheet="Sheet_Name")
     # returns a pandas.data_frame from sheet with provided name
 
 
     # of course multiple sheets can be loaded
-    data = fil_io.xls.load_these_sheets(file_name="path/to/file.xls", sheets=["Sheet_Name1", "Sheet_Name2"])
+    data = xls.load_these_sheets(file_name="path/to/file.xls", sheets=["Sheet_Name1", "Sheet_Name2"])
     # just like the other loading functions, the sheet_name is the key in a dictionary containing the data_frame as value
     # {"Sheet_Name": DataFrame}
 
     # loading all sheets
-    data = fil_io.xls.load_all_sheets(file_name="path/to/file.xls")
+    data = xls.load_all_sheets(file_name="path/to/file.xls")
     # {"Sheet_Name": DataFrame}
 
 
     # reading multiple files is possible as well
-    data = fil_io.xls.load_theses(file_name_list=["path/to/file1.xls", "path/to/file2.xls"])
+    data = xls.load_theses(file_name_list=["path/to/file1.xls", "path/to/file2.xls"])
     # {file_name: {sheet_name: DataFrame}}
