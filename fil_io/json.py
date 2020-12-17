@@ -51,6 +51,9 @@ def load_single(file_name):
     """
     from json import load
 
+    if Path(file_name).is_dir():
+        raise IsADirectoryError("given path is a directory not a file")
+
     with open(Path(file_name), "r") as f:
         logging.info("loading file_name {}".format(file_name))
         return load(f)

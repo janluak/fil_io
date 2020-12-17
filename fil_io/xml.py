@@ -48,6 +48,9 @@ def load_single(file_name):
         the xml as ordered dict ``{collections.OrderedDict}``
 
     """
+    if Path(file_name).is_dir():
+        raise IsADirectoryError("given path is a directory not a file")
+
     from xmltodict import parse
 
     with open(Path(file_name), "r") as f:

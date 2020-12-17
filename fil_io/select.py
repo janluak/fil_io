@@ -69,7 +69,7 @@ def check_file_name_ending(file_name, ending):
 
     """
     # input type check
-    if not isinstance(file_name, str):
+    if not isinstance(file_name, (str, Path)):
         raise TypeError(f"file_name needs to be string, {type(file_name)} provided")
     if not isinstance(ending, (str, list, set, tuple)):
         raise TypeError(
@@ -84,10 +84,10 @@ def check_file_name_ending(file_name, ending):
 
     # remove '.' from ending if provided as first character
     for element in ending:
-        if element[0] == ".":
-            ending[ending.index(element)] = element[1:]
+        if not element.startswith("."):
+            ending[ending.index(element)] = "." + element
 
-    if file_name.split(".")[-1] in ending:
+    if Path(file_name).suffix in ending:
         return True
 
     return False
@@ -163,7 +163,7 @@ def get_file_list_from_directory(directory, file_ending=None, pattern=None, rege
 
         logging.debug("regex for desired files: {}".format(regex))
         for file in files.copy():
-            if not bool(re.search(regex, file.split("/")[-1])):
+            if not bool(re.search(regex, Path(file).parts[-1])):
                 files.remove(file)
 
     # delete file_names not of specified file_ending

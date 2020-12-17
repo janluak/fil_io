@@ -32,6 +32,10 @@ def _register_csv_dialect(**kwargs):
         raise KeyError(
             f"only these keys for csv dialect are allowed: {csv_dialect_options}\nGiven keys: {kwargs.keys()}"
         )
+    from os import name
+    if "nt" == name:
+        kwargs.update({"lineterminator": "\n"})
+
     csv.register_dialect("custom", **kwargs)
 
 
@@ -81,6 +85,9 @@ def load_single(file_name, **kwargs):
         list of lists representing the csv data
         ``[[row1.1, row1.2]]``
     """
+    if Path(file_name).is_dir():
+        raise IsADirectoryError("given path is a directory not a file")
+
     if kwargs and "dialect" in kwargs:
         dialect = kwargs["dialect"]
     elif kwargs:
@@ -167,13 +174,26 @@ def write_from_rows(rows, file_name, **kwargs):
         csv dialect options
 
     """
-    if "." not in file_name:
-        file_name += ".csv"
+    if "." not in file_name.__str__():
+        if isinstance(file_name, str):
+            file_name += ".csv"
+        elif isinstance(file_name, Path):
+            file_name = file_name.joinpath(".csv")
+        else:
+            raise TypeError("unsupported type for file_name")
 
     logging.info(f"saving to file_name: {file_name}")
 
     if kwargs and "dialect" in kwargs:
-        dialect = kwargs["dialect"]
+        from os import name
+        if "nt" == name:
+            dialect = {i: csv.get_dialect(kwargs["dialect"]).__getattribute__(i) for i in
+                       dir(csv.get_dialect(kwargs["dialect"])) if not i.startswith("__") and i != "strict"}
+            dialect.update({"lineterminator": "\n"})
+            _register_csv_dialect(**dialect)
+            dialect = "custom"
+        else:
+            dialect = kwargs["dialect"]
     elif kwargs:
         _register_csv_dialect(**kwargs)
         dialect = "custom"
@@ -183,7 +203,7 @@ def write_from_rows(rows, file_name, **kwargs):
     if not check_file_name_ending(file_name, ["csv", "tsv"]):
         logging.warning(
             "file_name ending {} different to standard ({})".format(
-                file_name.split(".")[-1], ["csv", "tsv"]
+                Path(file_name).parts[-1], ["csv", "tsv"]
             )
         )
 

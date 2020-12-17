@@ -67,7 +67,11 @@ def load_single_sheet(file_name, sheet=None):
         pandas.DataFrame representing the xls(x) file
     """
     file_name = Path(file_name)
-    if file_name.is_file():
+
+    if file_name.is_dir():
+        raise IsADirectoryError("given path is a directory not a file")
+
+    elif not file_name.is_file():
         raise FileNotFoundError("given path doesn't point to a file")
 
     if not sheet:
