@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+0.1.2
+*****
+
+Windows filesystem support
+
 0.1.1
 *****
 
