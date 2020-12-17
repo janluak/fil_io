@@ -1,5 +1,5 @@
 from pytest import raises
-from .fixtures import cwd_in_tests_root
+from .fixtures import cwd_in_tests_root, os_path
 from collections import OrderedDict
 
 test_write_data = {"main_key": {"first_row": "value1", "second_row": 2, "third_row": ["abc", "def", 3]}}
@@ -28,8 +28,8 @@ def test_load_all(cwd_in_tests_root):
         load_all("./test_files/standard.xml")
 
     loaded = load_all("./test_files")
-    assert loaded == {
-        './test_files/other_file.xml': {
+    assert loaded == os_path({
+        'test_files/other_file.xml': {
             'main_key': OrderedDict([
                 ('first_row',
                  'value1'),
@@ -40,7 +40,7 @@ def test_load_all(cwd_in_tests_root):
                   'def'])
             ])
         },
-        './test_files/standard.xml': {
+        'test_files/standard.xml': {
             'main_key': OrderedDict([
                 ('first_row', 'value1'),
                 ('second_row', '2'),
@@ -50,7 +50,7 @@ def test_load_all(cwd_in_tests_root):
                   'def'])
             ])
         }
-    }
+    })
 
 
 def test_load(cwd_in_tests_root):
@@ -66,8 +66,8 @@ def test_load(cwd_in_tests_root):
     }
 
     loaded = load("./test_files")
-    assert loaded == {
-        './test_files/other_file.xml': {
+    assert loaded == os_path({
+        'test_files/other_file.xml': {
             'main_key': OrderedDict([
                 ('first_row',
                  'value1'),
@@ -78,7 +78,7 @@ def test_load(cwd_in_tests_root):
                   'def'])
             ])
         },
-        './test_files/standard.xml': {
+        'test_files/standard.xml': {
             'main_key': OrderedDict([
                 ('first_row', 'value1'),
                 ('second_row', '2'),
@@ -88,7 +88,7 @@ def test_load(cwd_in_tests_root):
                   'def'])
             ])
         }
-    }
+    })
 
 
 def test_write(tmp_path):

@@ -1,5 +1,5 @@
 from .select import *
-import os
+from pathlib import Path
 import logging
 
 __doc__ = "The xml_file module takes care of all I/O interactions concerning xml files"
@@ -48,9 +48,12 @@ def load_single(file_name):
         the xml as ordered dict ``{collections.OrderedDict}``
 
     """
+    if Path(file_name).is_dir():
+        raise IsADirectoryError("given path is a directory not a file")
+
     from xmltodict import parse
 
-    with open(file_name, "r") as f:
+    with open(Path(file_name), "r") as f:
         logging.info("loading file_name {}".format(file_name))
         f = f.read()
         return dict(parse(f))
@@ -97,8 +100,6 @@ def load_all(directory):
         the dictionaries from the files as values of file_name as key
         ``{file_name: {collections.OrderedDict}}``
     """
-    if not os.path.isdir(directory):
-        raise NotADirectoryError
 
     files = get_file_list_from_directory(directory, file_ending=".xml")
     data = load_these(files)
@@ -153,5 +154,5 @@ def write(data, file_name, main_key_name=None):
 
     from xmltodict import unparse
 
-    with open(file_name, "w+") as f:
+    with open(Path(file_name), "w+") as f:
         unparse(data, output=f)

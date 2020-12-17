@@ -3,7 +3,7 @@ from .select import *
 from openpyxl.styles import Alignment
 import logging
 import re
-import os
+from pathlib import Path
 
 __doc__ = (
     "The xls_file module takes care of all I/O interactions concerning xls(x) files"
@@ -66,8 +66,13 @@ def load_single_sheet(file_name, sheet=None):
     pandas.DataFrame
         pandas.DataFrame representing the xls(x) file
     """
-    if not os.path.isfile(file_name):
-        raise TypeError("given path doesn't point to a file_name")
+    file_name = Path(file_name)
+
+    if file_name.is_dir():
+        raise IsADirectoryError("given path is a directory not a file")
+
+    elif not file_name.is_file():
+        raise FileNotFoundError("given path doesn't point to a file")
 
     if not sheet:
         data = read_excel(file_name)
@@ -92,7 +97,7 @@ def load_all_sheets(file_name):
         dictionary containing the sheet_names as keys and pandas.DataFrame representing the xls(x) sheets
         ``{sheet_name: pandas.DataFrame}``
     """
-
+    file_name = Path(file_name)
     excel_file = ExcelFile(file_name)
     return load_these_sheets(file_name, list(excel_file.sheet_names))
 
@@ -166,8 +171,6 @@ def load_all_files(directory):
         ``{file_name: {sheet_name: pandas.DataFrame}}``
 
     """
-    if not os.path.isdir(directory):
-        raise NotADirectoryError
 
     files = get_file_list_from_directory(directory, pattern="*.xls*")
     data = load_these_files(files)
@@ -200,7 +203,7 @@ def __write_xlsx(data, file_name, auto_size_cells=True):
     if "." not in file_name:
         file_name += ".xlsx"
 
-    with ExcelWriter(file_name) as writer:
+    with ExcelWriter(Path(file_name)) as writer:
         logging.info(f"saving to file_name: {file_name}")
         for element in data:
             element[1].to_excel(writer, sheet_name=element[0])

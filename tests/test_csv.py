@@ -1,5 +1,6 @@
 from pytest import raises, mark
-from .fixtures import cwd_in_tests_root
+from .fixtures import cwd_in_tests_root, os_path
+from pathlib import Path
 
 test_write_data = [["1", "2"], ["A", "B, C"]]
 test_dict_data = {"rows": {
@@ -25,17 +26,17 @@ def test_load_all(cwd_in_tests_root):
         load_all("./test_files/pattern_1.csv")
 
     loaded = load_all("./test_files")
-    assert loaded == {
-        './test_files/excel_dialect.csv': [['header_a', 'header_b'],
+    assert loaded == os_path({
+        'test_files/excel_dialect.csv': [['header_a', 'header_b'],
                                            ['abc, def', 'value_b']],
-        './test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
-        './test_files/pattern_2.csv': [['header_a', 'header_b'],
+        'test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
+        'test_files/pattern_2.csv': [['header_a', 'header_b'],
                                        ["'value_a", " and more'", 'value_b']],
-        './test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
+        'test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
                                                ["'abc", " def'", 'value_b']],
-        './test_files/semicolon_dialect.csv': [['header_a;header_b'],
+        'test_files/semicolon_dialect.csv': [['header_a;header_b'],
                                                ['value_a;value_b']]
-    }
+    })
 
 
 def test_load(cwd_in_tests_root):
@@ -45,17 +46,17 @@ def test_load(cwd_in_tests_root):
     assert loaded == [["header1", "header2"], ["value1", "value2"]]
 
     loaded = load("./test_files")
-    assert loaded == {
-        './test_files/excel_dialect.csv': [['header_a', 'header_b'],
+    assert loaded == os_path({
+        'test_files/excel_dialect.csv': [['header_a', 'header_b'],
                                            ['abc, def', 'value_b']],
-        './test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
-        './test_files/pattern_2.csv': [['header_a', 'header_b'],
+        'test_files/pattern_1.csv': [['header1', 'header2'], ['value1', 'value2']],
+        'test_files/pattern_2.csv': [['header_a', 'header_b'],
                                        ["'value_a", " and more'", 'value_b']],
-        './test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
+        'test_files/quotechar_dialect.csv': [['header_a', 'header_b'],
                                                ["'abc", " def'", 'value_b']],
-        './test_files/semicolon_dialect.csv': [['header_a;header_b'],
+        'test_files/semicolon_dialect.csv': [['header_a;header_b'],
                                                ['value_a;value_b']]
-    }
+    })
 
 
 def test_delimiter(cwd_in_tests_root):
@@ -93,13 +94,13 @@ def test_write(tmp_path):
 def test_write_quotechar(tmp_path):
     from fil_io.csv import write
 
-    file = str(tmp_path / "data.csv")
+    file = Path(tmp_path, "data.csv")
     write(test_write_data, file)
 
     loaded = open(file, "r").read()
     assert loaded == '"1","2"\n"A","B, C"\n'
 
-    file = str(tmp_path / "data.csv")
+    file = Path(tmp_path, "data.csv")
     write(test_write_data, file, quotechar="'")
 
     loaded = open(file, "r").read()

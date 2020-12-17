@@ -1,5 +1,5 @@
 from pytest import raises
-from .fixtures import cwd_in_tests_root
+from .fixtures import cwd_in_tests_root, os_path
 
 test_write_data = {"b": "B", "c": "C", "a": "A", "d": "D", "b_dict": {"s": "S", "a": "A"}}
 
@@ -21,12 +21,12 @@ def test_load_all(cwd_in_tests_root):
         load_all("./test_files/pattern_1.json")
 
     loaded = load_all("./test_files")
-    assert loaded == {
-        './test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
-    }
+    assert loaded == os_path({
+        'test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
+    })
 
 
 def test_load(cwd_in_tests_root):
@@ -36,12 +36,12 @@ def test_load(cwd_in_tests_root):
     assert loaded == {'key1': 'value1', 'key2': 2}
 
     loaded = load("./test_files")
-    assert loaded == {
-        './test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
-        './test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
-    }
+    assert loaded == os_path({
+        'test_files/non_fit_pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_1.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_2.json': {'key1': 'value1', 'key2': 2},
+        'test_files/pattern_3.json': {'key1': 'value1', 'key2': 2}
+    })
 
 
 def test_write(tmp_path):
