@@ -1,6 +1,7 @@
 from .select import *
 from pathlib import Path
 import logging
+from collections import Iterable
 
 __doc__ = (
     "The json_file module takes care of all I/O interactions concerning json files"
@@ -65,7 +66,7 @@ def load_these(file_name_list):
 
     Parameters
     ----------
-    file_name_list : list
+    file_name_list : Iterable
         list of file_names to load from
 
     Returns
@@ -75,7 +76,7 @@ def load_these(file_name_list):
         ``{file_name: {data}}``
 
     """
-    if not isinstance(file_name_list, list):
+    if not isinstance(file_name_list, Iterable):
         raise TypeError("Expected list, got {}".format(type(file_name_list)))
 
     data = dict()

@@ -4,6 +4,7 @@ from openpyxl.styles import Alignment
 import logging
 import re
 from pathlib import Path
+from collections import Iterable
 
 __doc__ = (
     "The xls_file module takes care of all I/O interactions concerning xls(x) files"
@@ -135,7 +136,7 @@ def load_these_files(file_name_list):
 
     Parameters
     ----------
-    file_name_list : list
+    file_name_list : Iterable
         list of file_names to load from
 
     Returns
@@ -144,7 +145,7 @@ def load_these_files(file_name_list):
         the data from the sheets in a dictionary with sheet_name as key within again a dictionary with file_name as key
         ``{file_name: {sheet_name: pandas.DataFrame}}``
     """
-    if not isinstance(file_name_list, list):
+    if not isinstance(file_name_list, Iterable):
         raise TypeError(f"Expected list, got {type(file_name_list)}")
 
     data = dict()

@@ -2,6 +2,7 @@ from .select import *
 import csv
 from pathlib import Path
 import logging
+from collections import Iterable
 
 __doc__ = "The csv_file module takes care of all I/O interactions concerning csv files"
 
@@ -111,7 +112,7 @@ def load_these(file_name_list, **kwargs):
 
     Parameters
     ----------
-    file_name_list : list
+    file_name_list : Iterable
         list of file_names to load from
     kwargs : optional
         csv dialect options
@@ -126,7 +127,7 @@ def load_these(file_name_list, **kwargs):
     if kwargs and "dialect" not in kwargs:
         _register_csv_dialect(**kwargs)
 
-    if not isinstance(file_name_list, list):
+    if not isinstance(file_name_list, Iterable):
         raise TypeError("Expected list, got {}".format(type(file_name_list)))
 
     data = dict()
