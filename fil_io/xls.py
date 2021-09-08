@@ -33,7 +33,7 @@ def load(path):
 
     Parameters
     ----------
-    path : str
+    path : str, Path
         path to a file_name or directory
 
     Returns
@@ -57,7 +57,7 @@ def load_single_sheet(file_name, sheet=None):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
        file_name to load from
     sheet : str, optional
         a specified sheet_name to extract. default is first sheet
@@ -89,7 +89,7 @@ def load_all_sheets(file_name):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
        file_name to load from
 
     Returns
@@ -110,7 +110,7 @@ def load_these_sheets(file_name, sheets):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
        file_name to load from
     sheets : list
         sheet_names to load
@@ -162,7 +162,7 @@ def load_all_files(directory):
 
     Parameters
     ----------
-    directory : str
+    directory : str, Path
         the directory containing the xlsx files
 
     Returns
@@ -185,7 +185,7 @@ def __write_xlsx(data, file_name, auto_size_cells=True):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save the data under. if no ending is provided, saved as `file_name.xlsx`
     data : list
         list of tuples containing the sheet_name (pos.1) and panda.DataFrames (pos.2)
@@ -246,7 +246,7 @@ def write_single_sheet_from_DataFrame(
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as .xlsx
     data_frame : pandas.DataFrame
         pandas.DataFrame to write to file_name
@@ -270,7 +270,7 @@ def write_multi_sheet_from_DataFrames(
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as .xlsx
     data_frames : dict {sheet_name: DataFrame}
         dict of data_frames
@@ -312,7 +312,7 @@ def write_single_sheet_from_dict(
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as .xlsx
     data : dict
         the dictionary to be saved as xlsx ``{main_key_name: {data}}``
@@ -353,7 +353,7 @@ def write_multi_sheet_from_dict_of_dicts(
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as .xlsx
     data : dict
         the dictionary to be saved as xlsx ``{sheet_name: {main_key_name: {data}}}``

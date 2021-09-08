@@ -19,9 +19,9 @@ def return_file_list_if_directory(
 
     Parameters
     ----------
-    path : str
+    path : str, Path
         the path to test if directory
-    file_ending : str, set, optional
+    file_ending : str, list, set, optional
         the file_name ending specifying the file_name type for the files in the directory
     pattern : str, optional
         pattern for the file_names in directory to match
@@ -99,9 +99,9 @@ def get_file_list_from_directory(directory, file_ending=None, pattern=None, rege
 
     Parameters
     ----------
-    directory : str
+    directory : str, Path
         the directory containing the desired files
-    file_ending : str, set, optional
+    file_ending : str, list, set, optional
         the file_name's ending specifying the file type
     pattern : str, optional
         pattern for the file_names to match
@@ -185,9 +185,9 @@ def get_newest_file_from_directory(
 
     Parameters
     ----------
-    directory : str
+    directory : str, Path
         the directory where to get the latest file_name from
-    file_ending : str, set, optional
+    file_ending : str, list, set, optional
         the file_name ending specifying the file_name type
     pattern : str, optional
         pattern for the file_name to match

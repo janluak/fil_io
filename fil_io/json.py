@@ -17,7 +17,7 @@ def load(path):
 
     Parameters
     ----------
-    path : str
+    path : str, Path
         path to a file_name or directory
 
     Returns
@@ -41,7 +41,7 @@ def load_single(file_name):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         file_name to load from
 
     Returns
@@ -92,7 +92,7 @@ def load_all(directory):
 
     Parameters
     ----------
-    directory : str
+    directory : str, Path
         the directory containing the json files
 
     Returns
@@ -114,7 +114,7 @@ def write(data, file_name, beautify=True, sort=False):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as .json
     data : dict
         the dictionary to be saved as json

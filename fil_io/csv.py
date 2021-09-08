@@ -48,7 +48,7 @@ def load(path, **kwargs):
 
     Parameters
     ----------
-    path : str
+    path : str, Path
         path to a file_name or directory
     kwargs : optional
         csv dialect options
@@ -75,7 +75,7 @@ def load_single(file_name, **kwargs):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
        file_name to load from
     kwargs : optional
         csv dialect options
@@ -143,7 +143,7 @@ def load_all(directory, **kwargs):
 
     Parameters
     ----------
-    directory : str
+    directory : str, Path
         the directory containing the csv files
     kwargs : optional
      csv dialect options
@@ -167,7 +167,7 @@ def write_from_rows(rows, file_name, **kwargs):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save the data under. if no ending is provided, saved as `file_name.csv`
     rows : list
         list of lists to write to file_name
@@ -228,7 +228,7 @@ def write_from_dict(
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as `file_name.csv`
     data : dict
         the dictionary to be saved as csv
@@ -281,7 +281,7 @@ def write(
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as `file_name.csv`
     data : dict, list
         the dictionary or list to be saved as csv

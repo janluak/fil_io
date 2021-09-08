@@ -16,7 +16,7 @@ def load(path):
 
     Parameters
     ----------
-    path : str
+    path : str, Path
         path to a file_name or directory
 
     Returns
@@ -40,7 +40,7 @@ def load_single(file_name):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         file_name to load from
 
     Returns
@@ -92,7 +92,7 @@ def load_all(directory):
 
     Parameters
     ----------
-    directory : str
+    directory : str, Path
         the directory containing the xml files
 
     Returns
@@ -127,7 +127,7 @@ def write(data, file_name, main_key_name=None):
 
     Parameters
     ----------
-    file_name : str
+    file_name : str, Path
         the file_name to save under. if no ending is provided, saved as .xml
     data : dict, collections.OrderedDict
         the dictionary to be saved as xml
